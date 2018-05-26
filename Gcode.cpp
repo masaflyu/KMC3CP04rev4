@@ -47,15 +47,23 @@ const int GElementMaxLength = 20;
 const int GElementMaxNum = 20;
 
 //読み取り済みだが未処理のGCODEデータ
-char recentreaded[LENrecentreaded];  //内容
+//char recentreaded[LENrecentreaded];  //内容
 
 
 
 
 
+const int LengthOfStringBuffer = 192;
 
-void gCodeOpen(String filename){
-  
+//読み取り文字列のバッファ
+char stringbuffer[LengthOfStringBuffer];
+
+
+
+
+
+void gCodeOpen(String filename) {
+
   Gfile = SD.open(filename);
   if (Gfile) {
     Serial.print(filename);
@@ -64,78 +72,130 @@ void gCodeOpen(String filename){
     Serial.print(filename);
     Serial.print(F(" does not exist\r\n"));
   }
-  recentreaded[0] = '\0';
-  
+  //recentreaded[0] = '\0';
+
 }
 
 
-
-
-
-//readGcode()
-void readGcode() {
-  char cbuffer[readlength + 20];
-
+String readNewGCode() {
   SPIselect(0);
-  //--------------------------------------------------------------------
-  //もし読み取り済みコードに完全な行が無ければ(=>Gcodeに改行が無ければ)
-  //新たにSDからreadする．改行が含まれるかを調査する．
-  //改行コードが含まれない=>1行以上読み取ってない
-  if (strstr(recentreaded, "\r") == NULL && strstr(recentreaded, "\n") == NULL) {
-    int len = Gfile.available();
-    if (len) {
-      if (len > readlength) len = readlength;
-      Gfile.read(cbuffer, len);
-      cbuffer[len] = '\0';
+}
 
-      strcat( recentreaded , cbuffer);                          //★recentreadedに入るものに注意
 
-      //      Serial.println("SDread:____________________________");
-      //      Serial.println(recentreaded);
-      //      Serial.println("SDreadend:`````````````````````````");
+String readALine(int lineno) {
 
-    } else {
-      Serial.print(F("GCODE.gco READ END\r\n"));
-      while (1) {
-        Serial.print(F("Infinite Loop\r\n"));
-        delay(1000);
-      }
+}
+
+
+bool isLineLoaded(int lineno) {
+
+}
+
+bool loadStringToBuffer(File  file , char* strbuffer , int bufferlength , int loadlength ) {
+
+  int unprocessedlength = file.available(); //未処理の文字列の長さを調べる
+
+  char temporarybuffer[bufferlength];
+  if ( unprocessedlength > 0 ) { //まだ未処理分がある場合
+    if ( unprocessedlength > loadlength) {
+      file.read(temporarybuffer , loadlength);
+      temporarybuffer[loadlength];
     }
+    else {
+      file.read(temporarybuffer , unprocessedlength);
+    }
+
+    strcat( strbuffer , temporarybuffer);
+  }
+  else //未処理文字列が無い場合
+  {
+    Serial.print(F("FileEnd"));
   }
 
-  //--------------------------------------------------------------------
-  //改行を検索してそれ以前を取り出し動作させる．
-  //また，残った文字列を次回以降使えるように文字配列に格納する．
 
-  //strtokは分割対象を直接書き換えてしまう．コピーして保護
-  char recentreadcpy[LENrecentreaded];
-  strcpy ( recentreadcpy , recentreaded );
-  char *tok;
-  tok = strtok( recentreadcpy , "\r\n" );
-
-  //Serial.println("read:__________________");
-  //Serial.println(tok);
-  //Serial.println("readend:```````````````");
-
-  processGcode(tok);
-  //Serial.println(tok);
-
-  //--------------------------------------------------------------------
-  //残った文字列をrecentreadedに格納する
-  int processedlength = strlen(tok);
-  //直後にある改行コードを含める
-  while (recentreaded[processedlength] == '\r' || recentreaded[processedlength] == '\n')processedlength++;
-  //ポインタをprocessedlength分だけ進める
-  char * newreadpos = recentreaded;
-  strcpy( recentreaded , newreadpos + processedlength);
-
-  //  Serial.println("recent:______________________");
-  //  Serial.print("processedlength=");
-  //  Serial.println(processedlength);
-  //  Serial.println(recentreaded);
-  //  Serial.println("recentend:```````````````````");
 }
 
+int cutALineFromBuffer(char* strbuffer, char* linestring){
+  //strbufferの1行目を取り出す．
+  
+  do{
+    linestring = strtok( strbuffer , "\r\n" );
+    if (linestring == NULL) return 0;
+  }while(strlen(linestring)==0); //長さが0より大きくなるまで繰り返す（
+
+  strbuffer = linestring + strlen(linestring) + 1;  //strbufferポインタをlinestringの後ろへ移動
+
+  return strlen(linestring);
+}
+
+
+
+
+
+////readGcode()
+//void readGcode() {
+//  char cbuffer[readlength + 20];
+//
+//  SPIselect(0);
+//  //--------------------------------------------------------------------
+//  //もし読み取り済みコードに完全な行が無ければ(=>Gcodeに改行が無ければ)
+//  //新たにSDからreadする．改行が含まれるかを調査する．
+//  //改行コードが含まれない=>1行以上読み取ってない
+//  if (strstr(recentreaded, "\r") == NULL && strstr(recentreaded, "\n") == NULL) {
+//    int len = Gfile.available();
+//    if (len) {
+//      if (len > readlength) len = readlength;
+//      Gfile.read(cbuffer, len);
+//      cbuffer[len] = '\0';
+//
+//      strcat( recentreaded , cbuffer);                          //★recentreadedに入るものに注意
+//
+//      //      Serial.println("SDread:____________________________");
+//      //      Serial.println(recentreaded);
+//      //      Serial.println("SDreadend:`````````````````````````");
+//
+//    } else {
+//      Serial.print(F("GCODE.gco READ END\r\n"));
+//      while (1) {
+//        Serial.print(F("Infinite Loop\r\n"));
+//        delay(1000);
+//      }
+//    }
+//  }
+//
+//  //--------------------------------------------------------------------
+//  //改行を検索してそれ以前を取り出し動作させる．
+//  //また，残った文字列を次回以降使えるように文字配列に格納する．
+//
+//  //strtokは分割対象を直接書き換えてしまう．コピーして保護
+//  char recentreadcpy[LENrecentreaded];
+//  strcpy ( recentreadcpy , recentreaded );
+//  char *tok;
+//  tok = strtok( recentreadcpy , "\r\n" );
+//
+//  //Serial.println("read:__________________");
+//  //Serial.println(tok);
+//  //Serial.println("readend:```````````````");
+//
+//  processGcode(tok);
+//  //Serial.println(tok);
+//
+//  //--------------------------------------------------------------------
+//  //残った文字列をrecentreadedに格納する
+//  int processedlength = strlen(tok);
+//  //直後にある改行コードを含める
+//  while (recentreaded[processedlength] == '\r' || recentreaded[processedlength] == '\n')processedlength++;
+//  //ポインタをprocessedlength分だけ進める
+//  char * newreadpos = recentreaded;
+//  strcpy( recentreaded , newreadpos + processedlength);
+//
+//  //  Serial.println("recent:______________________");
+//  //  Serial.print("processedlength=");
+//  //  Serial.println(processedlength);
+//  //  Serial.println(recentreaded);
+//  //  Serial.println("recentend:```````````````````");
+//}
+//
 
 
 
@@ -314,7 +374,7 @@ void readGcode() {
 //  }
 
 
-  //◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆
+//◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆
 //letterSearch()
 int letterSearch(char * elml , char letter) {
   for (int ic = 1 ; ic < GElementMaxNum ; ic++) {
