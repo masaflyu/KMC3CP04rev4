@@ -44,7 +44,7 @@ void gotoYs(double posmm, double mms);
 
 void gotoZs(double posmm, double mms);
 
-void gotoEs(double posmm, double mms);
+void moveEs(double posmm, double mms);
 
 void initX();
 

@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include "P_Ports.h"
 #include "P_Gcode.h"
+#include "P_Motor.h"
 
 //const int LengthOfStringBuffer = 192;
 //char strbuf[LengthOfStringBuffer]="";
@@ -28,6 +29,12 @@ void setup()
 
 //  strbuf = getStrBuf();
 
+  motorDriverParamSet();
+  
+  //moveX(20.0);
+  //moveY(20.0);
+  //moveZ(5.0);
+  moveEs(12000,5);
 }
 
 void loop() 
