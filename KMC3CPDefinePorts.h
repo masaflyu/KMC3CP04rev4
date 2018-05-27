@@ -1,7 +1,6 @@
 
-#define DEFINEPORTS 0
 
-//const char SDCARD = 0;
+const char SDCARD = 0;
 const char MOTORX = 1;
 const char MOTORY = 2;
 const char MOTORZ = 3;

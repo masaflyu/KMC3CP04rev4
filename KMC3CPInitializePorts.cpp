@@ -1,7 +1,5 @@
 
-//#ifndef DEFINEPORTS
 #include "KMC3CPDefinePorts.h"
-//#endif
 #include<Arduino.h>
 
 void initializePorts(){

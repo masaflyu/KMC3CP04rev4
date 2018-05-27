@@ -3,23 +3,15 @@
 
 
 
-
-
-//char* getStrBuf(){
-//  return stringbuffer;
-//}
-
-
-
-
-
-int isLineLoaded(char* strbuffer) {
-  if( strpbrk( strbuffer , "\r\n" ) == NULL ){
+int isLineLoaded(char* strbuffer)
+{
+  if ( strpbrk( strbuffer , "\r\n" ) == NULL )
+  {
     return 0;
   }
   else
   {
-    return strcspn( strbuffer , "\r\n" );    
+    return strcspn( strbuffer , "\r\n" );
   }
 }
 
@@ -28,11 +20,9 @@ int isLineLoaded(char* strbuffer) {
 
 
 
-bool loadStringToBuffer(File  file , char* strbuffer , int bufferlength , int loadlength ) {
+bool loadStringToBuffer(File  file , char* strbuffer , int bufferlength , int loadlength )
+{
 
-  //Serial.print(F("FORDEBUG:@loadStringToBuffer() strbuffer="));
-  //Serial.println(strbuffer);
-  
   int unprocessedlength = file.available(); //未処理の文字列の長さを調べる
 
   char temporarybuffer[loadlength + 1];
@@ -45,21 +35,24 @@ bool loadStringToBuffer(File  file , char* strbuffer , int bufferlength , int lo
       file.read(temporarybuffer , unprocessedlength);
       temporarybuffer[unprocessedlength] = '\0';
     }
-    
+
     strcat( strbuffer , temporarybuffer);
 
-//    Serial.print(F("FORDEBUG:@loadStringToBuffer()-end temporarybuffer="));
-//    Serial.flush();
-//    Serial.println(temporarybuffer);
-//    Serial.flush();
-//    Serial.print(F("FORDEBUG:@loadStringToBuffer()-end strbuffer="));
-//    Serial.flush();
-//    Serial.println(strbuffer);
-//    Serial.flush();
+    //    Serial.print(F("FORDEBUG:@loadStringToBuffer()-end temporarybuffer="));
+    //    Serial.flush();
+    //    Serial.println(temporarybuffer);
+    //    Serial.flush();
+    //    Serial.print(F("FORDEBUG:@loadStringToBuffer()-end strbuffer="));
+    //    Serial.flush();
+    //    Serial.println(strbuffer);
+    //    Serial.flush();
+
+    return true;
   }
   else //未処理文字列が無い場合
   {
     Serial.print(F("FileEnd"));
+    return false;
   }
 
 
@@ -70,35 +63,28 @@ bool loadStringToBuffer(File  file , char* strbuffer , int bufferlength , int lo
 
 
 
-char* cutALineFromBuffer(char* strbuffer , int bufferlength , char* linestring , int linebuflength){
-  //char linestring[ linebuflength ];
-  
-  //strbufferの1行目を取り出す．
+char* cutALineFromBuffer(char* strbuffer , int bufferlength , char* linestring , int linebuflength)
+{
 
-  //Serial.print(F("FORDEBUG:@cutALIneFromBuffer()-begin strbuffer="));
-  //Serial.println(strbuffer);
-  
-  do{
+  //strtok()により，最初に発見した改行コード(\r\n)を\0に置き換え
+  do {
     strtok( strbuffer , "\r\n" );
     if (strbuffer == NULL) return 0;
-  }while( strlen( strbuffer ) == 0 ); //長さが0より大きくなるまで繰り返す（
+  } while ( strlen( strbuffer ) == 0 ); //長さが0より大きくなるまで繰り返す（
 
-  //strbuffer = linestring + strlen(linestring) + 1;  //strbufferポインタをlinestringの後ろへ移動
+  strcpy( linestring , strbuffer );   //linestring配列にstrbufferの1行分だけをコピー
 
-  strcpy( linestring , strbuffer );
-  
-  strcpy( strbuffer , strbuffer + strlen( strbuffer ) + 1 ); //linestringより後の文字列をstrbufferに格納．  
-//
-//  Serial.print(F("FORDEBUG:@cutALIneFromBuffer()-end strbuffer="));
-//  Serial.flush();
-//  Serial.println(strbuffer);
-//  Serial.flush();
-//  Serial.print(F("FORDEBUG:@cutALIneFromBuffer()-end linestring="));
-//  Serial.flush();
-//  Serial.println(linestring);
-//  Serial.flush();
-  
+  strcpy( strbuffer , strbuffer + strlen( strbuffer ) + 1 ); //linestringより2行目以降の文字列をstrbufferに格納．1行目を削除．
 
-  //return strlen(linestring);
+  //
+  //  Serial.print(F("FORDEBUG:@cutALIneFromBuffer()-end strbuffer="));
+  //  Serial.flush();
+  //  Serial.println(strbuffer);
+  //  Serial.flush();
+  //  Serial.print(F("FORDEBUG:@cutALIneFromBuffer()-end linestring="));
+  //  Serial.flush();
+  //  Serial.println(linestring);
+  //  Serial.flush();
+
   return linestring;
 }

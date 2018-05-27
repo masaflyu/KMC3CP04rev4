@@ -5,7 +5,7 @@
 #include <string.h>
 #include <math.h>
 #include <stdlib.h>
-//#include "DefinePorts.h"
+//#include "KMC3CPDefinePorts.h"
 #include "KMC3CPinitializePorts.h"
 #include "Serial.h"
 #include "SDGcode.h"
@@ -15,7 +15,7 @@
 
 char* strbuf;
 
-int debugcount = 100;
+//int debugcount = 100;
 
 void setup() {
   // put your setup code here, to run once:
@@ -58,6 +58,6 @@ void loop() {
 
   Serial.flush(); //シリアル送信完了を待つ関数 (昔は別の意味の関数だったので調べるときは注意）
 
-  debugcount--;
-  if(debugcount == 0) exit(0);
+  //debugcount--;
+  //if(debugcount == 0) exit(0);
 }

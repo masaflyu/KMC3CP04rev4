@@ -6,48 +6,48 @@
 
 
 
-//--------------------------------------------------------------------
-//センサ等
-
-//温度センサ値平均取得用サンプル数
-const int Tempavrgnum = 20;
-
-
-
-const double PLAThermal = 200.0;
-const double ABSThermal = 260.0;
-
-//Gコード読み取り処理の停止
-bool hotwait = 0;
-double commandtemp = 0.0;
-double commandwaittemp = 0.0;
-
-double extrudemms = 0.0;
-
-
-//センサ値格納
-double headtemp = 10.0;
-double recentheadtemp[ Tempavrgnum ] = { 20.0 } ;
-
-
-
-
-
-const int readlength = 64;
-//読み取り済みGコードデータのバッファ長(readlength以上)
-const int LENrecentreaded = 192;
-//コメント付きGコード1行の最大長さ
-const int GLineMaxLength = 200;
-//コメント無しGコード1行の最大長さ;
-const int GcodeMaxLength = 100;
-//Gコード要素の最大長さ
-const int GElementMaxLength = 20;
-//Gコード要素の最大個数
-const int GElementMaxNum = 20;
-
-//読み取り済みだが未処理のGCODEデータ
-//char recentreaded[LENrecentreaded];  //内容
-
+////--------------------------------------------------------------------
+////センサ等
+//
+////温度センサ値平均取得用サンプル数
+//const int Tempavrgnum = 20;
+//
+//
+//
+//const double PLAThermal = 200.0;
+//const double ABSThermal = 260.0;
+//
+////Gコード読み取り処理の停止
+//bool hotwait = 0;
+//double commandtemp = 0.0;
+//double commandwaittemp = 0.0;
+//
+//double extrudemms = 0.0;
+//
+//
+////センサ値格納
+//double headtemp = 10.0;
+//double recentheadtemp[ Tempavrgnum ] = { 20.0 } ;
+//
+//
+//
+//
+//
+//const int readlength = 64;
+////読み取り済みGコードデータのバッファ長(readlength以上)
+//const int LENrecentreaded = 192;
+////コメント付きGコード1行の最大長さ
+//const int GLineMaxLength = 200;
+////コメント無しGコード1行の最大長さ;
+//const int GcodeMaxLength = 100;
+////Gコード要素の最大長さ
+//const int GElementMaxLength = 20;
+////Gコード要素の最大個数
+//const int GElementMaxNum = 20;
+//
+////読み取り済みだが未処理のGCODEデータ
+////char recentreaded[LENrecentreaded];  //内容
+//
 
 
 
@@ -103,15 +103,17 @@ String readNewGCode() {
 
 
 
-String readNewGCodeALine(){
+String readNewGCodeALine() {
   //if( strbuf == NULL )return NULL;
-  if( isLineLoaded( stringbuffer ) )
+  if ( isLineLoaded( stringbuffer ) )
   {
-    
+
   }
   else
   {
-    loadStringToBuffer( Gfile , stringbuffer , LengthOfStringBuffer , LoadLengthToStringBuffer);
+    bool loadable;
+    loadable = loadStringToBuffer( Gfile , stringbuffer , LengthOfStringBuffer , LoadLengthToStringBuffer);
+    if ( loadable == false) return "";
   }
 
   char stringaline[LoadLengthToStringBuffer];
@@ -365,11 +367,11 @@ String readNewGCodeALine(){
 //  }
 
 
-//◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆
-//letterSearch()
-int letterSearch(char * elml , char letter) {
-  for (int ic = 1 ; ic < GElementMaxNum ; ic++) {
-    if (elml[ic] == letter)return ic;
-  }
-  return NULL;
-}
+////◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆
+////letterSearch()
+//int letterSearch(char * elml , char letter) {
+//  for (int ic = 1 ; ic < GElementMaxNum ; ic++) {
+//    if (elml[ic] == letter)return ic;
+//  }
+//  return NULL;
+//}
