@@ -3,11 +3,18 @@
 #include "KMC3CPDefinePorts.h"
 #include "Serial.h"
 
-void initializeSerial(){
+void initializeSerial()
+{
   //シリアルポート初期化
   Serial.begin(9600);
   // SSピン（Unoは10番、Megaは53番）は使わない場合でも出力にする必要があります。
   // そうしないと、SPIがスレーブモードに移行し、ライブラリが動作しなくなります。
+
+  Serial.println(F("Please change the baudrate to 115200") );
+
+  Serial.end();
+  Serial.begin(115200);
+  
   pinMode(SS, OUTPUT);
   SPIselect(SD_CS);
 

@@ -30,6 +30,9 @@ int isLineLoaded(char* strbuffer) {
 
 bool loadStringToBuffer(File  file , char* strbuffer , int bufferlength , int loadlength ) {
 
+  Serial.print(F("FORDEBUG:@loadStringToBuffer() strbuffer="));
+  Serial.println(strbuffer);
+  
   int unprocessedlength = file.available(); //未処理の文字列の長さを調べる
 
   char temporarybuffer[bufferlength];
@@ -59,6 +62,9 @@ bool loadStringToBuffer(File  file , char* strbuffer , int bufferlength , int lo
 
 int cutALineFromBuffer(char* strbuffer, char* linestring){
   //strbufferの1行目を取り出す．
+
+  Serial.print(F("FORDEBUG:@cutALIneFromBuffer()-begin strbuffer="));
+  Serial.println(strbuffer);
   
   do{
     linestring = strtok( strbuffer , "\r\n" );
@@ -66,6 +72,12 @@ int cutALineFromBuffer(char* strbuffer, char* linestring){
   }while(strlen(linestring)==0); //長さが0より大きくなるまで繰り返す（
 
   strbuffer = linestring + strlen(linestring) + 1;  //strbufferポインタをlinestringの後ろへ移動
+
+  Serial.print(F("FORDEBUG:@cutALIneFromBuffer()-end strbuffer="));
+  Serial.println(strbuffer);
+  Serial.print(F("FORDEBUG:@cutALIneFromBuffer()-end linestring="));
+  Serial.println(linestring);
+  
 
   return strlen(linestring);
 }

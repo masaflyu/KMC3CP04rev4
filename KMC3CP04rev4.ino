@@ -53,5 +53,6 @@ void loop() {
   //delay(500);
 
   Serial.println(readNewGCodeALine());
-  
+
+  Serial.flush(); //シリアル送信完了を待つ関数 (昔は別の意味の関数だったので調べるときは注意）
 }
