@@ -8,7 +8,7 @@
 //#include "KMC3CPDefinePorts.h"
 #include "KMC3CPinitializePorts.h"
 #include "Serial.h"
-#include "SDGcode.h"
+#include "KMC3CPGcode.h"
 
 //const int LengthOfStringBuffer = 192;
 //char strbuf[LengthOfStringBuffer]="";
