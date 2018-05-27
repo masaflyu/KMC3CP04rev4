@@ -1,3 +1,8 @@
+#include <Arduino.h>
+#include <SPI.h>
+#include "L6470Library.h"
+#include "P_Ports.h"
+
 void set6470abspos(char spino , long val){transfer6470(spino , 0x01,3,val);}
 void set6470elpos(char spino , long val){transfer6470(spino , 0x02,2,val);}
 void set6470mark(char spino , long val){transfer6470(spino , 0x03,3,val);}
@@ -61,7 +66,7 @@ void setChainNum(char num){
 }
 
 char busypin(char spino){
-  return 32+spino*2;
+  return 32+spino;
 }
 
 //////////////////////////////////////////////////////////////////
@@ -163,6 +168,7 @@ void l6470hardhiz(char spino){
   transfer6470(spino,0xa8,0,0);
 }
 
+
 //////////////////////////////////////////////////////////////////
 //transfer層
 
@@ -175,7 +181,8 @@ transfer層
 引数3: int bytes...valの長さ[バイト]
 引数4: long val...書き込む値(最大3バイト)
 */
-void transfer6470(char spino, int add, int bytes, long val){
+void transfer6470(char spino, int add, int bytes, long val)
+{
   int data[3];
   send6470(spino, add);
   for(int i=0;i<=bytes-1;i++){
@@ -237,7 +244,7 @@ long get6470param(char spino , int add , int bytes){
 
   for(int i=0 ; i<=bytes-1 ; i++){
     val = val << 8;
-    digitalWrite(PIN_SPI_SS, LOW); // ~SSイネーブル。
+    digitalWrite(MOTOR_CS, LOW); // ~SSイネーブル。
     for(int in = spi_chainnum ; in > 0 ; in-- ){
       if(in == spino){
         val = val | SPI.transfer(0x00); // アドレスもしくはデータを取得。
@@ -245,7 +252,7 @@ long get6470param(char spino , int add , int bytes){
         SPI.transfer(0);    //NOP命令を送る
       }
     }
-    digitalWrite(PIN_SPI_SS, HIGH); // ~SSディスエーブル 
+    digitalWrite(MOTOR_CS, HIGH); // ~SSディスエーブル 
   }
   return val;
 }
@@ -264,7 +271,7 @@ send層．コマンド，データなどをSPIライブラリを使用し実際�
 void send6470(char spino, unsigned char data){
   while(!digitalRead( busypin(spino) )){
   } //BESYが解除されるまで待機
-  digitalWrite(PIN_SPI_SS, LOW); // ~SSイネーブル。
+  digitalWrite(MOTOR_CS, LOW); // ~SSイネーブル。
   for(int in = spi_chainnum ; in > 0 ; in-- ){
     if(in == spino){
       SPI.transfer(data); //データを送る
@@ -272,7 +279,7 @@ void send6470(char spino, unsigned char data){
       SPI.transfer(0);    //NOP命令を送る
     }
   }
-  digitalWrite(PIN_SPI_SS, HIGH); // ~SSディスエーブル。
+  digitalWrite(MOTOR_CS, HIGH); // ~SSディスエーブル。
 }
 
 /*
@@ -283,7 +290,7 @@ send層．コマンド，データなどをSPIライブラリを使用し実際�
 引数2: int data...書き込むデータ
 */
 void send6470force(char spino, unsigned char data){
-  digitalWrite(PIN_SPI_SS, LOW);  // ~SSイネーブル。
+  digitalWrite(MOTOR_CS, LOW);  // ~SSイネーブル。
   for(int in = spi_chainnum ; in > 0 ; in-- ){
     if(in == spino){
       SPI.transfer(data); //データを送る
@@ -291,7 +298,7 @@ void send6470force(char spino, unsigned char data){
       SPI.transfer(0);    //NOP命令を送る
     }
   }
-  digitalWrite(PIN_SPI_SS, HIGH); // ~SSディスエーブル。
+  digitalWrite(MOTOR_CS, HIGH); // ~SSディスエーブル。
 }
 
 /*

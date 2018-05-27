@@ -1,10 +1,20 @@
+void initializePorts();
 
+void initializeSerial();
+
+void initializeSD();
+
+void selectSPIDevice(char device);
+
+void dateTime(uint16_t* date, uint16_t* time);
 
 const char SDCARD = 0;
 const char MOTORX = 1;
 const char MOTORY = 2;
 const char MOTORZ = 3;
 const char MOTORE = 4;
+const char MOTOR = 1;
+
 
 const char HV1 = 2;
 const char HV2 = 3;
@@ -14,7 +24,7 @@ const char HV5 = 6;
 const char HV6 = 7;
 
 const char SD_CS = 10;
-const char PIN_SPI_SS = 10;
+//const char PIN_SPI_SS = 10;
 
 const char OSW1 = 22;
 const char OSW2 = 23;
@@ -43,12 +53,4 @@ const char OThermistor = 56;
 const char BThermistor = 57;
 
 
-void initializePorts();
 
-void initializeSerial();
-
-void initializeSD();
-
-void selectSPIDevice(char device);
-
-void dateTime(uint16_t* date, uint16_t* time);
