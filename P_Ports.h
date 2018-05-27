@@ -42,3 +42,13 @@ const char Thermo2 = 55;
 const char OThermistor = 56;
 const char BThermistor = 57;
 
+
+void initializePorts();
+
+void initializeSerial();
+
+void initializeSD();
+
+void selectSPIDevice(char device);
+
+void dateTime(uint16_t* date, uint16_t* time);

@@ -1,14 +1,9 @@
-#include "KMC3CPDefinePorts.h"
-\
 #include <SPI.h>
-
 #include <string.h>
 #include <math.h>
 #include <stdlib.h>
-//#include "KMC3CPDefinePorts.h"
-#include "KMC3CPinitializePorts.h"
-#include "Serial.h"
-#include "KMC3CPGcode.h"
+#include "P_Ports.h"
+#include "P_Gcode.h"
 
 //const int LengthOfStringBuffer = 192;
 //char strbuf[LengthOfStringBuffer]="";
@@ -17,7 +12,8 @@ char* strbuf;
 
 //int debugcount = 100;
 
-void setup() {
+void setup() 
+{
   // put your setup code here, to run once:
 
   //全てのポートの入出力を設定
@@ -25,6 +21,8 @@ void setup() {
 
   //SPI系設定
   initializeSerial();
+
+  initializeSD();
   
   gCodeOpen("GCODE.gco");
 
@@ -32,7 +30,8 @@ void setup() {
 
 }
 
-void loop() {
+void loop() 
+{
   // put your main code here, to run repeatedly:
   //digitalWrite(LED1,1);
 

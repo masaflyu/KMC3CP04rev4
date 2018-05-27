@@ -1,6 +1,6 @@
 #include <SD.h>
-#include "Serial.h"
-#include "KMC3CPGcode.h"
+#include "P_Gcode.h"
+#include "P_Ports.h"
 #include "SDText.h"
 
 
@@ -67,16 +67,13 @@ const int LengthOfStringBuffer = 1000;
 //読み取り文字列のバッファ
 char stringbuffer[LengthOfStringBuffer] = "";
 
-////コンストラクタ風
-//void gCodeConstructor(){
-//  stringbuffer
-//}
 
 
 
 
 
-void gCodeOpen(String filename) {
+void gCodeOpen(String filename) 
+{
 
   Gfile = SD.open(filename);
   if (Gfile) {
@@ -95,15 +92,10 @@ void gCodeOpen(String filename) {
 
 
 
-String readNewGCode() {
-  SPIselect(0);
-}
+String readNewGCodeALine() 
+{
 
-
-
-
-
-String readNewGCodeALine() {
+  selectSPIDevice(SDCARD);
   //if( strbuf == NULL )return NULL;
   if ( isLineLoaded( stringbuffer ) )
   {

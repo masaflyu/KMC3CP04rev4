@@ -1,8 +1,6 @@
 #include <string.h>
 #include <SD.h>
 
-
-
 int isLineLoaded(char* strbuffer)
 {
   if ( strpbrk( strbuffer , "\r\n" ) == NULL )
