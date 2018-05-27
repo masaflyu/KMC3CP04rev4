@@ -12,8 +12,8 @@ void initializeSerial()
 
   Serial.println(F("Please change the baudrate to 115200") );
 
-  Serial.end();
-  Serial.begin(115200);
+  //Serial.end();
+  //Serial.begin(115200);
   
   pinMode(SS, OUTPUT);
   SPIselect(SD_CS);

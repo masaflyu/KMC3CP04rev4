@@ -15,6 +15,8 @@
 
 char* strbuf;
 
+int debugcount = 200;
+
 void setup() {
   // put your setup code here, to run once:
 
@@ -55,4 +57,7 @@ void loop() {
   Serial.println(readNewGCodeALine());
 
   Serial.flush(); //シリアル送信完了を待つ関数 (昔は別の意味の関数だったので調べるときは注意）
+
+  debugcount--;
+  if(debugcount == 0) exit(0);
 }
