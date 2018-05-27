@@ -82,13 +82,9 @@ String readNewGCode() {
 }
 
 
-String readALine(int lineno) {
 
-}
-
-
-bool isLineLoaded(int lineno) {
-
+int isLineLoaded(char* strbuffer) {
+  return strcspn( strbuffer , "\r\n" );
 }
 
 bool loadStringToBuffer(File  file , char* strbuffer , int bufferlength , int loadlength ) {
