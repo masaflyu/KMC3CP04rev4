@@ -53,10 +53,10 @@ const int GElementMaxNum = 20;
 
 
 
-const int LengthOfStringBuffer = 192;
+//const int LengthOfStringBuffer = 192;
 
 //読み取り文字列のバッファ
-char stringbuffer[LengthOfStringBuffer];
+//char stringbuffer[LengthOfStringBuffer];
 
 
 
@@ -84,7 +84,13 @@ String readNewGCode() {
 
 
 int isLineLoaded(char* strbuffer) {
-  return strcspn( strbuffer , "\r\n" );
+  if( strpbrk( strbuffer , "\r\n" ) == NULL ){
+    return 0;
+  }
+  else
+  {
+  return strcspn( strbuffer , "\r\n" );    
+  }
 }
 
 bool loadStringToBuffer(File  file , char* strbuffer , int bufferlength , int loadlength ) {
