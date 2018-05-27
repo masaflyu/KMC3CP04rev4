@@ -114,8 +114,8 @@ String readNewGCodeALine(){
     loadStringToBuffer( Gfile , stringbuffer , LengthOfStringBuffer , LoadLengthToStringBuffer);
   }
 
-  char* stringaline;
-  cutALineFromBuffer(stringbuffer , stringaline);
+  char stringaline[LoadLengthToStringBuffer];
+  cutALineFromBuffer(stringbuffer , LengthOfStringBuffer , stringaline , LoadLengthToStringBuffer);
   return stringaline;
 }
 

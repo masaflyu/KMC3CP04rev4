@@ -6,5 +6,5 @@ int isLineLoaded(char* strbuffer);
 
 bool loadStringToBuffer(File  file , char* strbuffer , int bufferlength , int loadlength );
 
-int cutALineFromBuffer(char* strbuffer, char* linestring);
+char* cutALineFromBuffer(char* strbuffer , int bufferlength , char* linestring , int linebuflength);
 

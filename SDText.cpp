@@ -30,8 +30,8 @@ int isLineLoaded(char* strbuffer) {
 
 bool loadStringToBuffer(File  file , char* strbuffer , int bufferlength , int loadlength ) {
 
-  Serial.print(F("FORDEBUG:@loadStringToBuffer() strbuffer="));
-  Serial.println(strbuffer);
+  //Serial.print(F("FORDEBUG:@loadStringToBuffer() strbuffer="));
+  //Serial.println(strbuffer);
   
   int unprocessedlength = file.available(); //未処理の文字列の長さを調べる
 
@@ -60,26 +60,31 @@ bool loadStringToBuffer(File  file , char* strbuffer , int bufferlength , int lo
 
 
 
-int cutALineFromBuffer(char* strbuffer, char* linestring){
+char* cutALineFromBuffer(char* strbuffer , int bufferlength , char* linestring , int linebuflength){
+  //char linestring[ linebuflength ];
+  
   //strbufferの1行目を取り出す．
 
-  Serial.print(F("FORDEBUG:@cutALIneFromBuffer()-begin strbuffer="));
-  Serial.println(strbuffer);
+  //Serial.print(F("FORDEBUG:@cutALIneFromBuffer()-begin strbuffer="));
+  //Serial.println(strbuffer);
   
   do{
-    linestring = strtok( strbuffer , "\r\n" );
-    if (linestring == NULL) return 0;
-  }while(strlen(linestring)==0); //長さが0より大きくなるまで繰り返す（
+    strtok( strbuffer , "\r\n" );
+    if (strbuffer == NULL) return 0;
+  }while( strlen( strbuffer ) == 0 ); //長さが0より大きくなるまで繰り返す（
 
   //strbuffer = linestring + strlen(linestring) + 1;  //strbufferポインタをlinestringの後ろへ移動
 
-  strcpy( strbuffer, linestring + strlen( linestring ) + 1 ); //linestringより後の文字列をstrbufferに格納．  
+  strcpy( linestring , strbuffer );
+  
+  strcpy( strbuffer , strbuffer + strlen( strbuffer ) + 1 ); //linestringより後の文字列をstrbufferに格納．  
 
-  Serial.print(F("FORDEBUG:@cutALIneFromBuffer()-end strbuffer="));
-  Serial.println(strbuffer);
-  Serial.print(F("FORDEBUG:@cutALIneFromBuffer()-end linestring="));
-  Serial.println(linestring);
+  //Serial.print(F("FORDEBUG:@cutALIneFromBuffer()-end strbuffer="));
+  //Serial.println(strbuffer);
+  //Serial.print(F("FORDEBUG:@cutALIneFromBuffer()-end linestring="));
+  //Serial.println(linestring);
   
 
-  return strlen(linestring);
+  //return strlen(linestring);
+  return linestring;
 }
