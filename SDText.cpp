@@ -71,7 +71,9 @@ int cutALineFromBuffer(char* strbuffer, char* linestring){
     if (linestring == NULL) return 0;
   }while(strlen(linestring)==0); //長さが0より大きくなるまで繰り返す（
 
-  strbuffer = linestring + strlen(linestring) + 1;  //strbufferポインタをlinestringの後ろへ移動
+  //strbuffer = linestring + strlen(linestring) + 1;  //strbufferポインタをlinestringの後ろへ移動
+
+  strcpy( strbuffer, linestring + strlen( linestring ) + 1 ); //linestringより後の文字列をstrbufferに格納．  
 
   Serial.print(F("FORDEBUG:@cutALIneFromBuffer()-end strbuffer="));
   Serial.println(strbuffer);
