@@ -53,14 +53,19 @@ const int GElementMaxNum = 20;
 
 
 
-//const int LengthOfStringBuffer = 192;
+const int LengthOfStringBuffer = 192;
 
 //読み取り文字列のバッファ
-//char stringbuffer[LengthOfStringBuffer];
+char stringbuffer[LengthOfStringBuffer] = "";
 
+////コンストラクタ風
+//void gCodeConstructor(){
+//  stringbuffer
+//}
 
-
-
+char* getStrBuf(){
+  return stringbuffer;
+}
 
 void gCodeOpen(String filename) {
 
@@ -89,7 +94,7 @@ int isLineLoaded(char* strbuffer) {
   }
   else
   {
-  return strcspn( strbuffer , "\r\n" );    
+    return strcspn( strbuffer , "\r\n" );    
   }
 }
 

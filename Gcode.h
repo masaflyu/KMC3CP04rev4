@@ -1,5 +1,7 @@
 #include <SD.h>
 
+char* getStrBuf(){
+
 void gCodeOpen(String filename);
 
 void readGcode();
