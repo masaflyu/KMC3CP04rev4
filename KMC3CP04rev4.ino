@@ -15,7 +15,7 @@
 
 char* strbuf;
 
-int debugcount = 200;
+int debugcount = 100;
 
 void setup() {
   // put your setup code here, to run once:

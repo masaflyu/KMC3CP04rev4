@@ -58,10 +58,10 @@ File Gfile;
 //char* strbuf = NULL;
 
 //Gコード格納バッファに一度に追加する文字列の長さ
-const int LoadLengthToStringBuffer = 64;
+const int LoadLengthToStringBuffer = 200;
 
 //Gコード格納バッファの長さ
-const int LengthOfStringBuffer = 192;
+const int LengthOfStringBuffer = 1000;
 
 
 //読み取り文字列のバッファ
