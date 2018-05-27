@@ -3,6 +3,8 @@
 
 void gCodeOpen(String filename);
 
+String readNewGCodeALine();
+
 void readGcode();
 
 void processGcode(char *gline);

@@ -1,26 +1,13 @@
+#include <string.h>
+#include <SD.h>
 
 
 
 
-const int LengthOfStringBuffer = 192;
 
-
-//読み取り文字列のバッファ
-char stringbuffer[LengthOfStringBuffer] = "";
-
-////コンストラクタ風
-//void gCodeConstructor(){
-//  stringbuffer
+//char* getStrBuf(){
+//  return stringbuffer;
 //}
-
-
-
-
-
-
-char* getStrBuf(){
-  return stringbuffer;
-}
 
 
 

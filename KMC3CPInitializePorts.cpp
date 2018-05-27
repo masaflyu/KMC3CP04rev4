@@ -1,6 +1,6 @@
 
 //#ifndef DEFINEPORTS
-#include "DefinePorts.h"
+#include "KMC3CPDefinePorts.h"
 //#endif
 #include<Arduino.h>
 

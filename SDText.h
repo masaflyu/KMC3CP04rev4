@@ -1,6 +1,6 @@
 
 
-char* getStrBuf();
+//char* getStrBuf();
 
 int isLineLoaded(char* strbuffer);
 

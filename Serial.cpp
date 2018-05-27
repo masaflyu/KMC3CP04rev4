@@ -1,6 +1,6 @@
 #include <SD.h>
 #include <SPI.h>
-#include "DefinePorts.h"
+#include "KMC3CPDefinePorts.h"
 #include "Serial.h"
 
 void initializeSerial(){

@@ -1,6 +1,7 @@
 #include <SD.h>
 #include "Serial.h"
-#include "Gcode.h"
+#include "SDGcode.h"
+#include "SDText.h"
 
 
 
@@ -31,8 +32,6 @@ double recentheadtemp[ Tempavrgnum ] = { 20.0 } ;
 
 
 
-//Gコードファイルのハンドル
-File Gfile;
 
 const int readlength = 64;
 //読み取り済みGコードデータのバッファ長(readlength以上)
@@ -49,6 +48,29 @@ const int GElementMaxNum = 20;
 //読み取り済みだが未処理のGCODEデータ
 //char recentreaded[LENrecentreaded];  //内容
 
+
+
+
+//Gコードファイルのハンドル
+File Gfile;
+
+//Gコードを格納するバッファ
+//char* strbuf = NULL;
+
+//Gコード格納バッファに一度に追加する文字列の長さ
+const int LoadLengthToStringBuffer = 64;
+
+//Gコード格納バッファの長さ
+const int LengthOfStringBuffer = 192;
+
+
+//読み取り文字列のバッファ
+char stringbuffer[LengthOfStringBuffer] = "";
+
+////コンストラクタ風
+//void gCodeConstructor(){
+//  stringbuffer
+//}
 
 
 
@@ -71,6 +93,8 @@ void gCodeOpen(String filename) {
 
 
 
+
+
 String readNewGCode() {
   SPIselect(0);
 }
@@ -78,6 +102,22 @@ String readNewGCode() {
 
 
 
+
+String readNewGCodeALine(){
+  //if( strbuf == NULL )return NULL;
+  if( isLineLoaded( stringbuffer ) )
+  {
+    
+  }
+  else
+  {
+    loadStringToBuffer( Gfile , stringbuffer , LengthOfStringBuffer , LoadLengthToStringBuffer);
+  }
+
+  char* stringaline;
+  cutALineFromBuffer(stringbuffer , stringaline);
+  return stringaline;
+}
 
 
 
