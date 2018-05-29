@@ -1,5 +1,7 @@
 void initializePorts();
 
+void initializeInterrupt();
+
 void initializeSerial();
 
 void initializeSD();

@@ -2,6 +2,7 @@
 #include <SD.h>
 #include <SPI.h>
 #include "P_Ports.h"
+#include "P_Motor.h"
 
 void initializePorts()
 {
@@ -42,7 +43,12 @@ void initializePorts()
 }
 
 
-
+void initializeInterrupt()
+{
+  attachInterrupt(OSW1,itr_LimitX,RISING);
+  attachInterrupt(OSW2,itr_LimitY,RISING);
+  attachInterrupt(OSW3,itr_LimitZ,RISING);
+}
 
 
 void initializeSerial()
@@ -55,6 +61,7 @@ void initializeSerial()
   //シリアル接続開始
   Serial.begin(115200);
 
+  //
   Serial.println(F("Serial connection succeed (115200bps).") );
 
 }

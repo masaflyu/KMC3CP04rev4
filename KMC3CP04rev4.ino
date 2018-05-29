@@ -20,21 +20,28 @@ void setup()
   //全てのポートの入出力を設定
   initializePorts();
 
+  initializeInterrupt();
+
   //SPI系設定
   initializeSerial();
 
+  //SD設定
   initializeSD();
   
   gCodeOpen("GCODE.gco");
 
 //  strbuf = getStrBuf();
 
-  motorDriverParamSet();
+  initMotorDriverParam();
+
+  initX();
+  initY();
+  initZ();
   
-  //moveX(20.0);
+  //moveX(-200.0);
   //moveY(20.0);
   //moveZ(5.0);
-  moveEs(12000,5);
+  moveEs(120,5);
 }
 
 void loop() 
@@ -67,3 +74,6 @@ void loop()
   //debugcount--;
   //if(debugcount == 0) exit(0);
 }
+
+
+

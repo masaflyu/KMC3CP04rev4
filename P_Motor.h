@@ -52,6 +52,12 @@ void initY();
 
 void initZ();
 
-void motorDriverParamSet();
+void itr_LimitX();
+
+void itr_LimitY();
+
+void itr_LimitZ();
+
+void initMotorDriverParam();
 
 
