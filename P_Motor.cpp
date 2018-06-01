@@ -92,7 +92,7 @@ void initY()
 
 void initZ()
 {
-  l6470run(3,1,0x04FFF);
+  l6470run(3,0,0x7FFFF);
 
 }
 
@@ -241,40 +241,64 @@ void moveEs(double mm, double mms) {
   set6470stepmode(MOTORZ, 0x06);
   //加速度に関すること///////////////
   //[R, WS] 加速度default 0x08A=138 (12bit) (14.55*val+14.55[step/s^2])
-  //default: 0x08A = 138 = 
-  //MAX:0xFFE = 4095
-  set6470acc(MOTORZ, 50);
+  //default:  0x08A =  138 →  2008 [ step / s^2 ]
+  //MAX:      0xFFE = 4095 → 59590 [ step / s^2 ]
+  set6470acc(MOTORZ, 100);
   //[R, WS] 減速度default 0x08A=138 (12bit) (14.55*val+14.55[step/s^2])
-  set6470dec(MOTORZ, 50);
+  //default:  0x08A =  138 →  2008 [ step / s^2 ]
+  //MAX:      0xFFE = 4095 → 59590 [ step / s^2 ]
+  set6470dec(MOTORZ, 100);
 
   //速度に関すること/////////////////
+  
   //[R, WR]最大速度default 0x041=65 (10bit) (15.25*val+15.25[step/s])
   //default:  0x041 = 65    →  1006 [step / s]
   //MAX:      0x3FF = 1023  → 15610 [step / s]
-  set6470maxspeed(MOTORZ, 24 );
+  set6470maxspeed(MOTORZ, 10 );
+  
   //[R, WS]最小速度default 0x000 (1+12bit) (0.238*val+[step/s])
   //最上位ビットを立てると，低速最適化が有効になる．その際，他の(0~11bitの)値は0になる．
   //default:  0x000 = 65    →  1006 [step / s]
   set6470minspeed(MOTORZ, 4096 );
+  
   //[R, WR]μステップからフルステップへの切替点速度default 0x027 (10bit) (15.25*val+7.63[step/s])
-  set6470fsspd(MOTORZ, 0x10 );
+  //default:  0x027 =   39 →   603 [step / s]
+  //MAX:      0x3FF = 1023 → 15625 [step / s]
+  set6470fsspd(MOTORZ, 1000 );
+  
   //電圧に関すること/////////////////
+  
   //[R, WR]停止時励磁電圧default 0x29=41 (8bit) (Vs[V]*val/256)
   //default:  0x29 =  41 → 3.84 [V] (電源24V時)
   //MAX:      0xFF = 255 → 23.9 [V] (電源24V時)
  set6470kvalhold(MOTORZ, 255 );
+ 
   //[R, WR]定速回転時励磁電圧default 0x29=41 (8bit) (Vs[V]*val/256) 
+  //default:  0x29 =  41 → 3.84 [V] (電源24V時)
+  //MAX:      0xFF = 255 → 23.9 [V] (電源24V時)
   set6470kvalrun(MOTORZ, 255 );
+  
   //[R, WR]加速時励磁電圧default 0x29=41 (8bit) (Vs[V]*val/256)
+  //default:  0x29 =  41 → 3.84 [V] (電源24V時)
+  //MAX:      0xFF = 255 → 23.9 [V] (電源24V時)
   set6470kvalacc(MOTORZ, 255 );
+  
   //[R, WR]減速時励磁電圧default 0x29=41 (8bit) (Vs[V]*val/256)
+  //default:  0x29 =  41 → 3.84 [V] (電源24V時)
+  //MAX:      0xFF = 255 → 23.9 [V] (電源24V時)
   set6470kvaldec(MOTORZ, 255 );
 
   //電流に関すること
+  
   //[R, WR]過電流しきい値default 0x8 (4bit) (375*val+375[mA])
-  set6470ocdth(MOTORZ, 0xF);
+  //default:  0x8 =  8 → 3.4 [A] 
+  //MAX:      0xF = 15 → 6 [A]
+  set6470ocdth(MOTORZ, 15);
+  
   //[R, WR]失速電流しきい値？default 0x40 (7bit) (31.25*val+31.25[mA])
-  set6470stallth(MOTORZ, 0x3F);
+  //default:  0x40 =   8 → 2.03 [A] 
+  //MAX:      0x7F = 127 → 4 [A]
+  set6470stallth(MOTORZ, 0x7F);
 
   //--------------------------------------------------------------------
   // エクストルーダ
