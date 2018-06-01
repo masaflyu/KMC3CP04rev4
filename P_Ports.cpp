@@ -4,6 +4,11 @@
 #include "P_Ports.h"
 #include "P_Motor.h"
 
+//ウォッチドッグタイマをオン．オンにするには，watchdogEnable(ms)を呼び出す．この関数は宣言するだけでよし．
+//また定期的にwatchdogReset()を呼び出す．
+void watchdogSetup(void) {/*** watchdogDisable (); ***/} // system wdt 設定無効 WDT_MR 設定は一回のみ
+
+
 void initializePorts()
 {
 
@@ -45,6 +50,7 @@ void initializePorts()
 
 void initializeInterrupt()
 {
+  
   attachInterrupt(OSW1,itr_LimitX,RISING);
   attachInterrupt(OSW2,itr_LimitY,RISING);
   attachInterrupt(OSW3,itr_LimitZ,RISING);

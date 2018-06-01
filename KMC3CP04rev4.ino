@@ -11,7 +11,7 @@
 
 char* strbuf;
 
-//int debugcount = 100;
+long debugcount = 0;
 
 void setup() 
 {
@@ -34,22 +34,25 @@ void setup()
 
   initMotorDriverParam();
 
-  initX();
-  initY();
-  initZ();
+  //initX();
+  //initY();
+  //initZ();
   
   //moveX(-200.0);
   //moveY(20.0);
   //moveZ(5.0);
-  moveEs(120,5);
+  //moveEs(120,5);
+  //delay(2400);
+  watchdogEnable( 2000 ); //ウォッチドッグタイマをオンに
 }
 
 void loop() 
 {
+  statusCheck();
   // put your main code here, to run repeatedly:
   //digitalWrite(LED1,1);
 
-  if( digitalRead(BSW1) == 1)
+  if( debugcount % 1000 < 500)
   {
     digitalWrite(LED1,1);
   }
@@ -57,7 +60,7 @@ void loop()
   {
     digitalWrite(LED1,0);
   }
-  if( digitalRead(BSW2) == 1)
+  if( debugcount % 1000 >= 500)
   {
     digitalWrite(LED2,1);
   }
@@ -71,8 +74,14 @@ void loop()
 
   Serial.flush(); //シリアル送信完了を待つ関数 (昔は別の意味の関数だったので調べるときは注意）
 
-  //debugcount--;
+  debugcount++;
+  //Serial.println(debugcount);
   //if(debugcount == 0) exit(0);
+}
+
+void statusCheck()
+{
+  watchdogReset();  //ウォッチドッグタイマ
 }
 
 
