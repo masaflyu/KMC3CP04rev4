@@ -45,6 +45,8 @@ void initializePorts()
   pinMode( Thermo2 , INPUT );
   pinMode( OThermistor , INPUT );
   pinMode( OThermistor , INPUT );
+
+  analogReadResolution(12);
 }
 
 
